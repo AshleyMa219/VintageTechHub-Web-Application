@@ -1,0 +1,44 @@
+html
+head
+title Password Reset Page
+link(rel='stylesheet', href='/stylesheets/style.css')
+body
+div#header
+h1 Password Reset
+div#content
+    p Password Reset Page. Welcome, #{username}!
+    p#email #{email}
+form(id='reset-password-form')
+    label(for="password1") Password:
+    input(type="password", id="password1", name="password1", required=true)
+    br
+    label(for="password2") Confirm Password:
+    input(type="password", id="password2", name="password2", required=true)
+    br
+    label#error
+    button(type="submit") Reset Password
+script.
+    const form = document.querySelector("#reset-password-form");
+    const error = document.querySelector("#error");
+    form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const email = document.getElementById('email').innerText
+        let password1 = document.querySelector("#password1").value;
+        const password2 = document.querySelector("#password2").value;
+        if (password1.length <5 || password2.length <5){
+            error.textContent = "Passwords at least 5 character .";
+            error.style.display = "block";
+            return;
+        }
+        if (password1 !== password2) {
+            error.textContent = "Passwords do not match.";
+            error.style.display = "block";
+            return;
+        }
+        else {
+            document.querySelector("#password1").value = email;
+            form.action = '../reset-success';
+            form.method = 'post';
+            form.submit();
+        }
+    });
